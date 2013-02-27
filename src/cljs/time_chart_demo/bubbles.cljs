@@ -2,13 +2,14 @@
   (:require-macros [c2.util :refer [bind!]])
   (:require [time-chart-demo.chart :refer [chart]]
             [time-chart-demo.axes :refer [x-scale y-scale]]
+            [time-chart-demo.utils :refer [d3map]]
             [cljs.reader :refer [read-string]]
             [c2.core :refer [unify]]
             [c2.util :as util]
             [c2.svg :refer [translate]]
             [c2.dom :refer [attr select]]
             [c2.event :refer [on]]
-            [shoreleave.remotes.http-rpc :refer [remote-callback]]))
+            [shoreleave.remotes.http-rpc :refer [remote-callback]])) 
 
 ;;;; BUBBLES drawer ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -21,7 +22,7 @@
                          cy (y-scale (first (specs :cy)))
                          r (first (specs :radius))
                          color (first (specs :color))]
-                     [:g {:id (str "group-" label)}
+                     [:g {:id (str "group-" label) :class "bubble"}
                       [:g {:id (str "main-ball-" label) :class "main-bubble" :opacity 1} 
                        [:circle {:cx cx
                                  :cy cy
@@ -49,6 +50,31 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+;;;;;;;;;;;;;;;;;;;;; BUBBLE  sort ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defn sort-bubbles []
+  (let [selection-parent (d3.selectAll ".bubble")]
+    (-> (aset selection-parent 0
+              (-> (aget selection-parent 0)
+                  (.sort (fn [a b]
+                           (let [first (aget (aget (d3.selectAll 
+                                                    (str "#" 
+                                                         (aget b "id") 
+                                                         ">.main-bubble>circle")) 0) 0)
+                                 second (aget (aget 
+                                               (d3.selectAll 
+                                                (str "#" 
+                                                     (aget a "id") 
+                                                     ">.main-bubble>circle")) 0) 0)]
+                             (- (aget (aget (aget first "r") "animVal") "value")
+                                (aget (aget (aget second "r") "animVal") "value"))))))))
+    (.order selection-parent)))
+
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;;; BUBBLES events ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 

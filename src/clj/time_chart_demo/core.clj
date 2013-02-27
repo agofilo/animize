@@ -1,5 +1,6 @@
 (ns time-chart-demo.core
   (:use compojure.core)
+  (:use time-chart-demo.remotes)
   (:require [compojure.handler :as cmpjhandler]
             [compojure.route :as cmpjroute]
             [cemerick.shoreleave.rpc :as rpc]))

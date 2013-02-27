@@ -28,12 +28,13 @@
   :ring {:handler time-chart-demo.core/middleware}
   
   :cljsbuild {:crossover [time-chart-demo.crossovers]
-              :builds {:dev {:source-paths ["src/cljs" "src/connection"]
+              :builds {:dev {:source-paths ["src/cljs"]
+                             :incremental false
                              :compiler {:output-to "resources/public/js/time-chart-demo_dev.js"
                                         :optimizations :whitespace
                                         :externs ["externs/d3_externs.js"]
                                         :pretty-print true }}
-                       :pre-prod {:source-paths ["src/cljs" "src/connection"]
+                       :pre-prod {:source-paths ["src/cljs"]
                                   :compiler {:output-to "resources/public/js/time-chart-demo_pre.js"
                                              :optimizations :simple
                                              :externs ["externs/d3_externs.js"]

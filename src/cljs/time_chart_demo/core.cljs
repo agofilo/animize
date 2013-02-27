@@ -5,7 +5,7 @@
             [time-chart-demo.chart :refer [chart draw-background draw-chart]]
             [time-chart-demo.date :refer [add-date update-date]]
             [time-chart-demo.bubbles :refer [draw-bubbles explode implode select-main-ball 
-                                             select-sub-balls deselect-main-ball order-bubbles
+                                             select-sub-balls deselect-main-ball sort-bubbles
                                              bubbles-names deselect-sub-balls create-bubbles]]
             [time-chart-demo.scrolling :refer [scroller add-scroller set-time-dependence 
                                                play stop set-nth-time-dependence animate?]]
@@ -30,7 +30,12 @@
     (.attr "id" "bubbles")
     (.attr "opening-order" []))
 
-(remote-callback :create-bubbles-remote [] #(draw-bubbles %))
+(remote-callback :create-bubbles-remote [] (fn [bub] 
+                                             (draw-bubbles bub)
+                                             (sort-bubbles)
+                                             ))
+
+;(js/setTimeout #(sort-bubbles) 500) 
 
 (draw-chart chart)
 
