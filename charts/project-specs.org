@@ -1,0 +1,139 @@
+* Project-spec
+
+** Libraries
+
+*** Server Side
+    - [ ] Clojure (1.4/1.5) 
+    - [ ] Compojure
+      - [ ] Routes handling
+    - [ ] Shoreleave-ring (?)
+      - [ ] remotes definition
+    - [ ] C2
+      - [ ] Svg server-side
+    - [ ] Korma
+      - [ ] DB interface
+    - [ ] Csv-clojure
+      - Csv interface
+    - [ ] Enlive
+      - Html templating
+
+*** Client Side
+    - [ ] d3js.org *EXTERN* /send thanks to Mbostock/
+      - Core graphic library
+    - [ ] Enfocus
+      - [ ] Html templating (Configurator)
+    - [ ] Domina
+      - [ ] Dom manipulation
+    - [ ] C2
+      - [ ] Data Binding & Svg events
+    - [ ] Shoreleave-remotes (?)
+      - [ ] Rpc handling
+    - [ ] Vomnibus (?)
+      - [ ] Color gradients
+    - [ ] Http-kit (?)
+      - [ ] Futures?
+    - [ ] Valip (?)
+      - [ ] Data validation
+
+** Server Side
+
+** Client Side
+
+*** Data and structures representation
+
+**** Data
+
+    + [X] time-dependent, t=0,...,max_time
+    + [X] space-dependent, N tags
+    + [X] K explosion sub-categories
+    + [X] 1 level of depth  
+
+    [Map_i]_i=0,...,max_time
+
+    Map_i = {:id "string"
+             :tag_1 val_1
+             ...
+	     :tag_N val_N
+	     :sub-cat_1 {:sub_id_11 {:tag_1 val_111
+	                            ...
+	                            :tag_N val_11N}
+                         ...
+                        {:sub_id_1M {:tag_1 val_1M1
+	                               ...
+	                              :tag_N val_1MN}}
+             ...
+             :sub-cat_K {:sub_id_K1 {:tag_1 val_K11
+	                             ...
+	                             :tag_N val_K1N}
+                         ...
+                         :sub_id_KJ {:tag_1 val_KJ1
+	                             ...
+	                             :tag_N val_KJN}} 
+	     
+
+**** Interface
+     
+***** Rendering (SVG)
+
+      _Chart style_
+      {:background-color color-hex
+       :axes-color color-hex
+       :grid [x-bool y-bool] 
+       :font f-f
+       :time-notify bool
+       :obj-stroke color-hex
+       :obj-color-scheme def-color-hex}
+
+      _Configurator style_
+      - ¿bootstrap?
+
+***** Configurations (DOM)
+
+      - Chart type
+      - Bubble tracking
+      - (Zoom)
+      - Explosion specifications (radio)
+      - Thresholds
+      - Chart color scheme
+      - Obj color scheme
+
+	-> to-map!
+	
+
+**** Chart
+
+    {:svg-margin {:top y
+                  :left x}
+     :axes-margin {:top y'
+                   :left x'}
+     :width w
+     :height h
+     :type *identificator*
+     :axes {:axis_1 (d3-rendering axis-1)
+            ...
+            :axis_N (d3-rendering axis-N)}
+     :visible-axis [x-axis y-axis]
+     :radius-variable r-axis
+     :thresholds [x-thr y-thr r-thr]
+     :t-span [t_1 ... t_n]} 
+
+
+**** Axes
+
+    - [X] Axes dimension and position depends of chart (trivial)
+
+    {:label "string"
+     :scale "type"
+     :range [a b]
+     :domain [a' b']
+     :orient "string"
+     :threshold sigma
+     :ticks x}
+    
+
+** TODO: 
+   - [ ] radius is considered a tag but must be treated apart.
+   - [ ] sort ...
+   - [ ] server-side  
+   - [ ] bubbles' color
+   - [ ] chart types
